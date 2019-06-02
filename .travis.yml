@@ -1,0 +1,27 @@
+language: java
+jdk:
+- openjdk11
+sudo: false
+services:
+- docker
+cache:
+  directories:
+  - "$HOME/.cache"
+before_install: 
+install:
+- mvn install -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+- mvn help:evaluate -Dexpression=project.version | grep -e '^[^\[]'
+- export project_version=$(mvn help:evaluate -Dexpression=project.version | grep -e
+  '^[^\[]')
+script: 
+after_success: 
+deploy:
+  provider: releases
+  api_key:
+    secure: fKvRx15vv1Dew3511UVkY1w3osSvudDfWSwxKnBhkNlv+H2oG3SLW48GHFC5MEZ9Nwzf9q2+D3vb8cJpjqm0gyuspsQq+jGLH2KgDmGJrwoz3oKFstIxKnlsF2uRFVIUxpuseOkiaVN7RZbDDjmoca63YXkCw9RobsY8OwhuzE2oWgllM0/Dpq7v9pP1cWyemxGMIS1qcATVuDZE2knkz4T2LNDFGbuxAnFyCkbSpr1KbxhEX8wWmbD54gnFd8sHHwij1fN+5vTlrGPTxtU7Ece8pHoIaeM08Abs1yOuKNb9PeW6ubB4EjFInN579hC3954+t0K34q3eYaOZ0UigIxCCZDnCCwGOz027l7Zl/A80lNpa2dX2ay5cB47cpaMNv9ieIp5qegy1TSlOy628InRNlUZepVTCsO0FnoTFfXZiXap4E6B89JSFaj1debF6y11XrkoP9yqZx6fi1bocHSw/qvX45CEpUTbxg1yhofbGZyUCyE5+BxroYD5drzDm9lF506y2JPszjvbAHa4b13He2mM3qYkiHgGDCwMKoULgjISrTlCPLi5AukiiiuFugzsQ1sX4ROimAPuHoNOLfmQJZbMyfXFIkcr6hcefppt/TERR7YGRqW09rBc8cHuPKrnWG/rGnX60asxqn7QjNLWrIRPbHlXGMl0mgT5mtnM=
+  file: ''
+  on:
+    repo: aaitor/crypto-utils
+env:
+  global:
+  - secure: MAavHPrQZ9GLxzfioWBrbi8yFsp8ALvgy5AF78ltV9fsDZEKzzdEV0GxtVH8INfZ3uuIvZckh23yCECwnHl1mBXlh2g4IkyiEgyCfPBt1Ae3a4bew7eqI6DuH564W7JDjap3bp73ahqNyyIKkdzHu3FI5hRhYOGE2nVEXEl1Dd3dCLCTesqx0jX8z9vce04XPCh6A1OoyEMvXuSls5A4C9U2fSM9Ie0i0j5SN9DZyOyQhcGS50voqnHLfaFCU1vdpxvHh3dU7rTbT3iiUJ52dNCxvGlO4nDMWFmPw5p9RLaxSr+Wd62t0aCbRpD09JcWbV2OPzatGGDGJiiw6QBwflob/p2wh9IaZ7Lcs8gJ5cZHKFliHGc2722jOupDZPtaSvQSIDvnc5AIAPD6PMZywPn4h9sBUss4R7KDHVVmluX2OD3k2JPuatAnAfDK/cB6BDQHC5LYCiZ7xwkWxDIGAyPCfkD717ypUsRb+GnqvpZUoXs2Wc1crzPrE9YFYISZzjbY4foDkwAYwrxkDtVHwYTnm7hY96ijX1i/KAiFAo/yHaQUT6sTjUgGhL6kWanzwTS8OYPSlCREPdHdZ9ZLTPTmiLyCqc/DY+oGjQcyslhzBDVzV6Ps5hgEAf68MulZPskhmchBkcYb3RcJ+XIdKZgeGuF/hM3rQW8diA3h6Us=
